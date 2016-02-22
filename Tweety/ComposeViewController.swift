@@ -56,7 +56,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
 
     @IBAction func onTweetTap(sender: AnyObject) {
         if characterCountLeft >= 0 && characterCountLeft < 140 {
-            TwitterClient.sharedInstance.tweetWithCompletion(tweetString, params: nil, completion: { (error) -> () in
+            /*TwitterClient.sharedInstance.tweetWithCompletion(tweetString, params: nil, completion: { (error) -> () in
                 if error != nil {
                     print("Failed to send tweet")
                 }
@@ -64,9 +64,9 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 if let tweetsPage = storyboard.instantiateViewControllerWithIdentifier("TweetsViewController") as? TweetsViewController {
                     tweetsPage.requestTweets()
-                }
-                self.dismissViewControllerAnimated(true, completion: nil)
-            })
+                }*/
+        self.dismissViewControllerAnimated(true, completion: nil)
+            //})
         }
     }
     
