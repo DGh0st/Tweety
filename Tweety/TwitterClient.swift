@@ -30,7 +30,7 @@ class TwitterClient: BDBOAuth1SessionManager {
         TwitterClient.sharedInstance.GET("1.1/statuses/home_timeline.json", parameters: params, success: { (operation: NSURLSessionDataTask!, response: AnyObject?) -> Void in
                 let tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
                 completion(tweets: tweets, error: nil)
-            }, failure: { (operation: NSURLSessionDataTask?, error: NSError!) -> Void in
+            }, failure: { (operation: NSURLSessionDataTask?, error: NSError!) -> Void in                
                 print("Failed to get home timeline")
                 completion(tweets: nil, error: error)
         })
@@ -67,6 +67,41 @@ class TwitterClient: BDBOAuth1SessionManager {
         }, failure: { (error: NSError!) -> Void in
                 print("Failed to recieve access token")
                 self.loginCompletion?(user: nil, error: error)
+        })
+    }
+    
+    func retweetWithCompletion(id: Int, isRetweet: Bool, params: NSDictionary?, completion: (error: NSError?) -> ()) {
+        var retweetOrUnretweet = "retweet"
+        if (!isRetweet) {
+            retweetOrUnretweet = "unretweet"
+        }
+        POST("1.1/statuses/\(retweetOrUnretweet)/\(id).json", parameters: params, success: { (operation: NSURLSessionDataTask!, response: AnyObject?) -> Void in
+                completion(error:nil)
+            }, failure: { (operation: NSURLSessionDataTask?, error: NSError!) -> Void in
+                print("Failed to \(retweetOrUnretweet)")
+                completion(error: nil)
+        })
+    }
+    
+    func favoritewithCompletion(id: Int, isFavorite: Bool, params: NSDictionary?, completion: (error: NSError?) -> ()) {
+        var createOrDestroy = "create"
+        if (!isFavorite) {
+            createOrDestroy = "destroy"
+        }
+        POST("1.1/favorites/\(createOrDestroy).json?id=\(id)", parameters: params, success: { (operation: NSURLSessionDataTask!, response: AnyObject?) -> Void in
+                completion(error:nil)
+            }, failure: { (operation: NSURLSessionDataTask?, error: NSError!) -> Void in
+                print("Failed to \(createOrDestroy) favorite")
+                completion(error: error)
+        })
+    }
+    
+    func tweetWithCompletion(status: String, params: NSDictionary?, completion: (error: NSError?) -> ()) {
+        POST("1.1/statuses/update.json?status=\(status)", parameters: params, success:  { (operation: NSURLSessionDataTask!, response: AnyObject?) -> Void in
+                completion(error:nil)
+            }, failure: { (operation: NSURLSessionDataTask?, error: NSError!) -> Void in
+                print("Failed to tweet")
+                completion(error: error)
         })
     }
 }
