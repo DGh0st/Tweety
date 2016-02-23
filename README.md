@@ -62,7 +62,7 @@ I had a really bad time with displaying the tweets because I forgot to reloadDat
 
 # Project 5 - *Tweety*
 
-Time spent: **WIP** hours spent in total
+Time spent: **7** hours spent in total
 
 ## User Stories
 
